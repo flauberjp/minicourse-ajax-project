@@ -9,11 +9,12 @@ function loadData() {
     
     var $street = $('#street').val();
     var $city = $('#city').val();
-    var $address = $street + ',' + $city;
+    var $address = $street + ', ' + $city;
 
     // clear out old data before new request
     $wikiElem.text("");
     $nytElem.text("");
+    $nytElem.append("What's going on in \"" + $address + "\", according to <a href='https://www.nytimes.com/'>NY Times</a>:");
 
     $greeting.text('So you want to live at ' + $address);
 
@@ -23,9 +24,19 @@ function loadData() {
     console.log($street + $city);
 
     // NYTimes AJAX request
-    var $URL = 'https://api.nytimes.com/svc/search/v2//articlesearch.json?fl=João Pessoa&api-key=336e8270267142a69c5b1fb8e02d3004';
-    $.getJSON(URL, function(data) {
-        console.log(data);
+    var $URL = 'https://api.nytimes.com/svc/search/v2//articlesearch.json?q=' + $street + ' ' + $city + '&api-key=336e8270267142a69c5b1fb8e02d3004&&sort=newest';
+    $.getJSON($URL, function(data) {
+        var items = [];
+        $.each( data.response.docs, function( key, val ) {
+            $.each(val, function( key1, val1 ) {
+                items.push( "<li id='" + key1 + "'>" + val1 + "</li>" );
+            });
+        });
+       
+        $( "<ul/>", {
+          "class": "my-new-list",
+          html: items.join( "" )
+        }).appendTo( "body" );
     });
 
     return false;
