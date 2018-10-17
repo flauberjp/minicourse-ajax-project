@@ -23,10 +23,10 @@ function loadData() {
     console.log($street + $city);
 
     // NYTimes AJAX request
-    // var $URL = 'https://api.nytimes.com/svc/search/v2//articlesearch.json?fl=João Pessoa&api-key=336e8270267142a69c5b1fb8e02d3004';
-    // $.getJSON(URL, function(data) {
-    //    console.log(data);
-    // });
+    var $URL = 'https://api.nytimes.com/svc/search/v2//articlesearch.json?fl=João Pessoa&api-key=336e8270267142a69c5b1fb8e02d3004';
+    $.getJSON(URL, function(data) {
+        console.log(data);
+    });
 
     return false;
 };
