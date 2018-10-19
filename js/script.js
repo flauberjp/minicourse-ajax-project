@@ -13,8 +13,7 @@ function loadData() {
 
     // clear out old data before new request
     $wikiElem.text("");
-    $nytElem.text("");
-    $nytElem.append("What's going on in \"" + $address + "\", according to <a href='https://www.nytimes.com/'>NY Times</a>:");
+    $nytElem.empty();
 
     $greeting.text('So you want to live at ' + $address);
 
@@ -26,17 +25,24 @@ function loadData() {
     // NYTimes AJAX request
     var $URL = 'https://api.nytimes.com/svc/search/v2//articlesearch.json?q=' + $street + ' ' + $city + '&api-key=336e8270267142a69c5b1fb8e02d3004&&sort=newest';
     $.getJSON($URL, function(data) {
-        var items = [];
-        $.each( data.response.docs, function( key, val ) {
-            $.each(val, function( key1, val1 ) {
-                items.push( "<li id='" + key1 + "'>" + val1 + "</li>" );
-            });
-        });
-       
-        $( "<ul/>", {
-          "class": "my-new-list",
-          html: items.join( "" )
-        }).appendTo( "body" );
+        fLen = data.response.docs.length;
+        for (i = 0; i < fLen; i++) {
+            if (data.response.docs[i].document_type !== "article") {
+                continue;
+            }
+            var $articleWebUrl = data.response.docs[i].web_url;
+            var $headline = data.response.docs[i].headline.main;
+            var $snippet = data.response.docs[i].snippet;
+            $nytElem.append(
+                "<li class='article'> \
+                    <a href='" + $articleWebUrl + "' target='_blank'>" 
+                        + $headline + 
+                "   </a> \
+                    <p>" 
+                        + $snippet + 
+                "   </p> \
+                </li>");
+        }
     });
 
     return false;
