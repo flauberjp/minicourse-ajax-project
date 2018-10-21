@@ -23,27 +23,33 @@ function loadData() {
     console.log($street + $city);
 
     // NYTimes AJAX request
-    var $URL = 'https://api.nytimes.com/svc/search/v2//articlesearch.json?q=' + $street + ' ' + $city + '&api-key=336e8270267142a69c5b1fb8e02d3004&&sort=newest';
-    $.getJSON($URL, function(data) {
-        fLen = data.response.docs.length;
-        for (i = 0; i < fLen; i++) {
-            if (data.response.docs[i].document_type !== "article") {
-                continue;
+    var $URL = 'https://api.nytimes.com/svc/search/v2//articlesearch.json?q=' + 
+        $street + ' ' + $city + 
+        '&api-key=336e8270267142a69c5b1fb8e02d3004&&sort=newest';
+    $.getJSON($URL)
+        .done(function(data) {
+            fLen = data.response.docs.length;
+            for (i = 0; i < fLen; i++) {
+                if (data.response.docs[i].document_type !== "article") {
+                    continue;
+                }
+                var $articleWebUrl = data.response.docs[i].web_url;
+                var $headline = data.response.docs[i].headline.main;
+                var $snippet = data.response.docs[i].snippet;
+                $nytElem.append(
+                    "<li class='article'> \
+                        <a href='" + $articleWebUrl + "' target='_blank'>" 
+                            + $headline + 
+                    "   </a> \
+                        <p>" 
+                            + $snippet + 
+                    "   </p> \
+                    </li>");
             }
-            var $articleWebUrl = data.response.docs[i].web_url;
-            var $headline = data.response.docs[i].headline.main;
-            var $snippet = data.response.docs[i].snippet;
-            $nytElem.append(
-                "<li class='article'> \
-                    <a href='" + $articleWebUrl + "' target='_blank'>" 
-                        + $headline + 
-                "   </a> \
-                    <p>" 
-                        + $snippet + 
-                "   </p> \
-                </li>");
-        }
-    });
+        })
+        .fail(function(error) {
+            $nytElem.text('Not possible to load any article from NY Times this time. Try again later.');
+        });
 
     return false;
 };
