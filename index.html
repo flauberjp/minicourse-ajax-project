@@ -8,8 +8,8 @@
 <body>
 
     <form id="form-container" class="form-container">
-        <label for="street">Street: </label><input type="text" id="street" value="Fremont Blvd">
-        <label for="city">City: </label><input type="text" id="city" value="Fremont">
+        <label for="street">Street: </label><input type="text" id="street" value="Av. Paulista">
+        <label for="city">City: </label><input type="text" id="city" value="São Paulo">
         <button id="submit-btn">Submit</button>
     </form>
 
@@ -24,12 +24,10 @@
     </div>
     
 
-    <div class="nytimes-container">
+    <div id="nytimes-container" class="nytimes-container">
         <h3 id="nytimes-header">New York Times Articles</h3>
-        <ul class="article-list">What's going on in your new city? Enter an address and hit submit and the <a href='https://www.nytimes.com/'  target='_blank'>NY Times</a> will tell you here!</ul>
+        <ul id="nytimes-articles" class="article-list">What's going on in your new city? Enter an address and hit submit and the <a href='https://www.nytimes.com/'  target='_blank'>NY Times</a> will tell you here!</ul>
     </div>
-
-    <ul id="nytimes-articles" class="article-list"></ul>
 
     <script src="js/libs/jquery-3.3.1.min.js"></script>
     <script src="js/script.js"></script>

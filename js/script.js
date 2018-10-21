@@ -6,6 +6,7 @@ function loadData() {
     var $nytHeaderElem = $('#nytimes-header');
     var $nytElem = $('#nytimes-articles');
     var $greeting = $('#greeting');
+    var $nytimesContainer = $('#nytimes-container');
     
     var $street = $('#street').val();
     var $city = $('#city').val();
@@ -13,12 +14,21 @@ function loadData() {
 
     // clear out old data before new request
     $wikiElem.text("");
+
     $nytElem.empty();
+    $(".article-list").remove();
+    $nytimesContainer.append(
+        "<ul id='nytimes-articles' class='article-list'>This is what's going on \
+        there: </ul>");
+    $nytElem = $('#nytimes-articles');
 
     $greeting.text('So you want to live at ' + $address);
 
     // load streetview
-    $body.append('<img class="bgimg" src="https://maps.googleapis.com/maps/api/streetview?location=' + $address + '&size=456x456&key=AIzaSyDDOcmlGj05utj9s1VXTUCYKx6OByMPRvM">');
+    $body.append('<img class="bgimg" \
+        src="https://maps.googleapis.com/maps/api/streetview?location=' 
+        + $address + 
+        '&size=456x456&key=AIzaSyDDOcmlGj05utj9s1VXTUCYKx6OByMPRvM">');
     // YOUR CODE GOES HERE!
     console.log($street + $city);
 
@@ -41,10 +51,9 @@ function loadData() {
                         <a href='" + $articleWebUrl + "' target='_blank'>" 
                             + $headline + 
                     "   </a> \
-                        <p>" 
+                        <BR>" 
                             + $snippet + 
-                    "   </p> \
-                    </li>");
+                    "</li>");
             }
         })
         .fail(function(error) {
